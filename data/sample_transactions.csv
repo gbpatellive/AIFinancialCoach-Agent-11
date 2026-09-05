@@ -1,0 +1,11 @@
+﻿date,category,amount,type,mode
+2026-08-01,Salary,120000,income,bank
+2026-08-02,Rent,28000,expense,bank
+2026-08-03,Groceries,8500,expense,upi
+2026-08-05,Dining,4200,expense,credit_card
+2026-08-07,Transport,2500,expense,cash
+2026-08-09,Utilities,3900,expense,bank
+2026-08-12,Shopping,7800,expense,credit_card
+2026-08-15,Freelance,18000,income,upi
+2026-08-17,EMI,6500,expense,bank
+2026-08-20,Entertainment,3000,expense,wallet
