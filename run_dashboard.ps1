@@ -1,2 +1,3 @@
-﻿Set-Location C:\Gaurav\Learning\AI\Hackathon\AIFinancialCoach
+﻿Set-Location $PSScriptRoot
+$env:PYTHONPATH = $PSScriptRoot
 streamlit run app\dashboard.py
