@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "currency": "INR",
+    "profile": "retired_person",
+    "last_updated": "2026-09-05"
+  },
+
+  "user": {
+    "name": "Suresh Kulkarni",
+    "age": 68,
+    "occupation": "Retired",
+    "dependents": 1
+  },
+
+  "income_sources": [
+    {
+      "source": "Pension",
+      "amount": 65000,
+      "frequency": "monthly",
+      "type": "fixed"
+    },
+    {
+      "source": "Rental Income",
+      "amount": 18000,
+      "frequency": "monthly",
+      "type": "fixed"
+    }
+  ],
+
+  "current_expenses": [
+    {
+      "source": "Household Expenses",
+      "amount": 22000,
+      "frequency": "monthly",
+      "category": "household",
+      "type": "essential"
+    },
+    {
+      "source": "Food and Groceries",
+      "amount": 10000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "essential"
+    },
+    {
+      "source": "Utilities",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Medical Expenses",
+      "amount": 12000,
+      "frequency": "monthly",
+      "category": "healthcare",
+      "type": "essential"
+    },
+    {
+      "source": "Transport",
+      "amount": 4000,
+      "frequency": "monthly",
+      "category": "transport",
+      "type": "essential"
+    },
+    {
+      "source": "House Maintenance",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "housing",
+      "type": "essential"
+    },
+    {
+      "source": "Travel and Recreation",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "travel",
+      "type": "discretionary"
+    }
+  ],
+
+  "debts": [],
+
+  "investments": [
+    {
+      "name": "Fixed Deposits",
+      "type": "fixed_deposit",
+      "current_value": 3500000,
+      "monthly_contribution": 0
+    },
+    {
+      "name": "Debt Mutual Funds",
+      "type": "mutual_fund",
+      "current_value": 1800000,
+      "monthly_contribution": 0
+    },
+    {
+      "name": "PPF",
+      "type": "retirement",
+      "current_value": 700000,
+      "monthly_contribution": 0
+    },
+    {
+      "name": "Gold",
+      "type": "gold",
+      "current_value": 1200000,
+      "monthly_contribution": 0
+    }
+  ],
+
+  "insurance": [],
+
+  "cash_and_savings": {
+    "current_balance": 600000,
+    "emergency_fund": 400000
+  },
+
+  "financial_goals": [
+    {
+      "goal": "Medical Reserve",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 500000,
+      "current_amount": 150000,
+      "priority": "high"
+    },
+    {
+      "goal": "Support Child",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 500000,
+      "current_amount": 100000,
+      "priority": "medium"
+    },
+    {
+      "goal": "Legacy / Estate",
+      "horizon": "long_term",
+      "horizon_years": "10+",
+      "target_amount": 3000000,
+      "current_amount": 0,
+      "priority": "medium"
+    }
+  ]
+}
