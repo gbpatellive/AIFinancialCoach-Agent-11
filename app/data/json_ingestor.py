@@ -41,21 +41,18 @@ def normalize_to_legacy_context(
     savings_rate = 0.0 if monthly_income <= 0 else max((monthly_income - monthly_expenses) / monthly_income, 0.0)
 
     profile = UserProfile(
+        user_id=doc.username,
         monthly_income=monthly_income,
-        monthly_expenses=monthly_expenses,
-        savings_rate=savings_rate,
-        risk_tolerance="moderate",  # safe default if not present in JSON
-        dependents=doc.user.dependents,
     )
 
     debts: List[Debt] = []
     for d in doc.debts:
         debts.append(
             Debt(
-                debt_name=d.name,
-                balance=d.current_balance,
-                interest_rate=d.apr or 0.0,
-                minimum_payment=d.minimum_payment or d.monthly_payment or 0.0,
+                name=d.name,
+                balance=float(d.current_balance),
+                apr=float(d.apr or 0.0),
+                min_payment=float(d.minimum_payment or d.monthly_payment or 0.0),
             )
         )
 
@@ -67,9 +64,9 @@ def normalize_to_legacy_context(
         transactions.append(
             Transaction(
                 date=today,
-                description=i.source,
                 category="income",
                 amount=_to_monthly(i.amount, i.frequency),
+                type="income",
             )
         )
 
@@ -77,9 +74,9 @@ def normalize_to_legacy_context(
         transactions.append(
             Transaction(
                 date=today,
-                description=e.source,
                 category=e.category,
-                amount=-abs(_to_monthly(e.amount, e.frequency)),
+                amount=abs(_to_monthly(e.amount, e.frequency)),
+                type="expense",
             )
         )
 

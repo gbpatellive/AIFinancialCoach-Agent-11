@@ -4,7 +4,7 @@
     "profile": "senior_professional_healthy_portfolio",
     "last_updated": "2026-09-05"
   },
-  "username": "user3",
+   "username": "user3",
   "password": "Pass@123",
   "aadhar_number": "434567890123",
   "Aadhar": "434567890123",
@@ -88,7 +88,9 @@
       "type": "discretionary"
     }
   ],
+
   "debts": [],
+
   "investments": [
     {
       "name": "Equity Mutual Funds",

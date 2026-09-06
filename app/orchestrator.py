@@ -29,6 +29,6 @@ class FinancialCoachOrchestrator:
             "next_actions": [
                 "Cut top 2 expense categories by 15%",
                 "Enable autopay for minimum + extra debt payment",
-                "Re-upload latest CSV monthly for re-optimization",
+                "Review your latest financial profile monthly for re-optimization",
             ],
         }

@@ -88,7 +88,9 @@
       "type": "discretionary"
     }
   ],
+
   "debts": [],
+
   "investments": [
     {
       "name": "Equity Mutual Funds",
@@ -109,7 +111,9 @@
       "monthly_contribution": 0
     }
   ],
+
   "insurance": [],
+
   "cash_and_savings": {
     "current_balance": 350000,
     "emergency_fund": 250000

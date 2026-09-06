@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 # 1) Run login first
@@ -30,6 +30,27 @@ if ($loginExitCode -ne 0) {
 if (-not (Test-Path $sessionFile)) {
     Write-Host "Session file missing after login: $sessionFile" -ForegroundColor Red
     exit 1
+}
+
+# Resolve which user data file will be loaded by dashboard
+try {
+    $session = Get-Content -Path $sessionFile -Raw | ConvertFrom-Json
+    $username = $session.username
+    $explicitPath = $session.user_json_path
+    if (-not $explicitPath -and $session.profile) {
+        $explicitPath = $session.profile.user_json_path
+    }
+
+    $dataFileToLoad = if ($explicitPath) {
+        $explicitPath
+    } else {
+        Join-Path $PSScriptRoot ("data\{0}.json" -f $username)
+    }
+
+    Write-Host "User data file to load: $dataFileToLoad" -ForegroundColor Cyan
+}
+catch {
+    Write-Host "Could not resolve user data file from session: $($_.Exception.Message)" -ForegroundColor Yellow
 }
 
 # 2) Expose session file path for Streamlit app

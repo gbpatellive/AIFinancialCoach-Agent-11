@@ -1,3 +1,3 @@
-﻿Set-Location C:\Gaurav\Learning\AI\Hackathon\AIFinancialCoach
+﻿Set-Location $PSScriptRoot
 pip install -r requirements.txt
-uvicorn app.api.main:app --reload
+python -m uvicorn app.api.main:app --app-dir $PSScriptRoot --reload --reload-dir $PSScriptRoot --host 127.0.0.1 --port 8000
