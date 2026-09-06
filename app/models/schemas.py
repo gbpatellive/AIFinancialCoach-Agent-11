@@ -1,4 +1,5 @@
 ﻿from typing import Dict, List, Literal
+from typing import Optional
 from pydantic import BaseModel, Field, field_validator
 
 TransactionType = Literal["income", "expense"]
