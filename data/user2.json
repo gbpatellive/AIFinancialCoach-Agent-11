@@ -4,14 +4,18 @@
     "profile": "experienced_professional_marriage_planning",
     "last_updated": "2026-09-05"
   },
-
+  "username": "user2",
+  "password": "Pass@123",
+  "aadhar_number": "423456789012",
+  "Aadhar": "423456789012",
+  "pan_number": "AABCU2345G",
+  "PAN": "AABCU2345G",
   "user": {
     "name": "Neha Deshmukh",
     "age": 29,
     "occupation": "Product Manager",
     "dependents": 2
   },
-
   "income_sources": [
     {
       "source": "Salary",
@@ -26,7 +30,6 @@
       "type": "variable"
     }
   ],
-
   "current_expenses": [
     {
       "source": "Rent",
@@ -115,7 +118,6 @@
     "current_balance": 350000,
     "emergency_fund": 250000
   },
-
   "financial_goals": [
     {
       "goal": "Marriage",

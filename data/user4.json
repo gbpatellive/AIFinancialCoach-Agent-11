@@ -4,14 +4,18 @@
     "profile": "retired_person",
     "last_updated": "2026-09-05"
   },
-
+  "username": "user4",
+  "password": "Pass@123",
+  "aadhar_number": "445678901234",
+  "Aadhar": "445678901234",
+  "pan_number": "AABCU4567J",
+  "PAN": "AABCU4567J",
   "user": {
     "name": "Suresh Kulkarni",
     "age": 68,
     "occupation": "Retired",
     "dependents": 1
   },
-
   "income_sources": [
     {
       "source": "Pension",
@@ -26,7 +30,6 @@
       "type": "fixed"
     }
   ],
-
   "current_expenses": [
     {
       "source": "Household Expenses",
@@ -78,9 +81,7 @@
       "type": "discretionary"
     }
   ],
-
   "debts": [],
-
   "investments": [
     {
       "name": "Fixed Deposits",
@@ -107,14 +108,11 @@
       "monthly_contribution": 0
     }
   ],
-
   "insurance": [],
-
   "cash_and_savings": {
     "current_balance": 600000,
     "emergency_fund": 400000
   },
-
   "financial_goals": [
     {
       "goal": "Medical Reserve",

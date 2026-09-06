@@ -4,14 +4,18 @@
     "profile": "mid_30s_multiple_debts",
     "last_updated": "2026-09-05"
   },
-
+  "username": "user5",
+  "password": "Pass@123",
+  "aadhar_number": "456789012345",
+  "Aadhar": "456789012345",
+  "pan_number": "AABCU5678K",
+  "PAN": "AABCU5678K",
   "user": {
     "name": "Vikram Patil",
     "age": 36,
     "occupation": "Senior Software Engineer",
     "dependents": 2
   },
-
   "income_sources": [
     {
       "source": "Salary",
@@ -26,7 +30,6 @@
       "type": "variable"
     }
   ],
-
   "current_expenses": [
     {
       "source": "Household Expenses",
@@ -99,7 +102,6 @@
       "type": "discretionary"
     }
   ],
-
   "debts": [
     {
       "name": "Home Loan",
@@ -133,7 +135,6 @@
       "payment_frequency": "monthly"
     }
   ],
-
   "investments": [
     {
       "name": "Equity Mutual Fund SIP",
@@ -154,7 +155,6 @@
       "monthly_contribution": 0
     }
   ],
-
   "insurance": [
     {
       "type": "life",
@@ -175,12 +175,10 @@
       "payment_frequency": "yearly"
     }
   ],
-
   "cash_and_savings": {
     "current_balance": 500000,
     "emergency_fund": 350000
   },
-
   "financial_goals": [
     {
       "goal": "Build Larger Emergency Fund",

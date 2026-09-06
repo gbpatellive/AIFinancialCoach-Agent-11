@@ -68,3 +68,5 @@ The debt analysis flow is implemented in [`app.agents.debt_analyzer_agent.DebtAn
 
 - This project provides educational financial guidance.
 - It is not legal, tax, or investment advice.
+
+-Test

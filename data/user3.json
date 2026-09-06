@@ -4,14 +4,18 @@
     "profile": "senior_professional_healthy_portfolio",
     "last_updated": "2026-09-05"
   },
-
+   "username": "user3",
+  "password": "Pass@123",
+  "aadhar_number": "434567890123",
+  "Aadhar": "434567890123",
+  "pan_number": "AABCU3456H",
+  "PAN": "AABCU3456H",
   "user": {
     "name": "Rohan Mehta",
     "age": 42,
     "occupation": "Engineering Director",
     "dependents": 2
   },
-
   "income_sources": [
     {
       "source": "Salary",
@@ -26,7 +30,6 @@
       "type": "variable"
     }
   ],
-
   "current_expenses": [
     {
       "source": "Home Expenses",
@@ -126,7 +129,6 @@
       "monthly_contribution": 5000
     }
   ],
-
   "insurance": [
     {
       "type": "life",
@@ -147,12 +149,10 @@
       "payment_frequency": "yearly"
     }
   ],
-
   "cash_and_savings": {
     "current_balance": 1200000,
     "emergency_fund": 900000
   },
-
   "financial_goals": [
     {
       "goal": "Children Higher Education",

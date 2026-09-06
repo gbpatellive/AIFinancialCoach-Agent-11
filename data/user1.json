@@ -4,14 +4,18 @@
     "profile": "recent_fresher",
     "last_updated": "2026-09-05"
   },
-
+  "username": "user1",
+  "password": "Pass@123",
+  "aadhar_number": "412345678901",
+  "Aadhar": "412345678901",
+  "pan_number": "AABCU1234F",
+  "PAN": "AABCU1234F",
   "user": {
     "name": "Aarav Sharma",
     "age": 23,
     "occupation": "Software Engineer",
     "dependents": 2
   },
-
   "income_sources": [
     {
       "source": "Salary",
@@ -20,7 +24,6 @@
       "type": "fixed"
     }
   ],
-
   "current_expenses": [
     {
       "source": "Rent",
@@ -79,7 +82,6 @@
       "type": "discretionary"
     }
   ],
-
   "debts": [
     {
       "name": "Education Loan",
@@ -90,16 +92,12 @@
       "remaining_term_months": 84
     }
   ],
-
   "investments": [],
-
   "insurance": [],
-
   "cash_and_savings": {
     "current_balance": 45000,
     "emergency_fund": 30000
   },
-
   "financial_goals": [
     {
       "goal": "Build Emergency Fund",

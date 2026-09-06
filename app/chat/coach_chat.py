@@ -11,7 +11,7 @@ DISCLAIMER = (
 
 
 class FinancialCoachChat:
-    """Context-aware financial coach chat using profile, CSV data, and plan outputs."""
+    """Context-aware financial coach chat using the logged-in user's financial profile."""
 
     def respond(self, message: str, ctx: AgentContext, plan: dict | None = None) -> str:
         text = message.strip()
@@ -121,7 +121,7 @@ class FinancialCoachChat:
     def _help(self, ctx: AgentContext) -> str:
         return (
             f"**Financial Coach — `{ctx.profile.user_id}`**\n\n"
-            "Ask natural questions about your finances. I use your profile, CSV data, "
+            "Ask natural questions about your finances. I use your logged-in financial profile "
             "and generated plan (when available).\n\n"
             "**Topics I can help with:**\n"
             "- **Debt** — balances, APR, risk, individual accounts\n"
@@ -155,7 +155,7 @@ class FinancialCoachChat:
 
     def _debt_insights(self, ctx: AgentContext, snapshot: dict, plan: dict | None) -> str:
         if not ctx.debts:
-            return "No debt accounts found in your CSV. Upload a debts file to get debt analysis."
+            return "No debt accounts were found in your financial profile."
 
         risk = "high" if snapshot["weighted_apr"] >= 20 else "medium" if snapshot["weighted_apr"] >= 12 else "low"
         lines = [
@@ -208,7 +208,7 @@ class FinancialCoachChat:
     def _budget_insights(self, ctx: AgentContext, plan: dict | None) -> str:
         spend = category_spend(ctx.transactions)
         if not spend:
-            return "No expense transactions found. Check your transactions CSV for spending analysis."
+            return "No expense data was found in your financial profile."
 
         lines = ["**Spending by Category**\n"]
         for category, amount in list(spend.items())[:5]:
@@ -393,7 +393,7 @@ class FinancialCoachChat:
         return (
             "**Income Overview**\n\n"
             f"- **Profile monthly income:** {ctx.profile.monthly_income:,.2f}\n"
-            f"- **Income from transactions CSV:** {cash['income']:,.2f}\n"
+            f"- **Income from financial profile:** {cash['income']:,.2f}\n"
             f"- **Monthly expenses:** {snapshot['expenses']:,.2f}\n"
             f"- **After expenses & min debt payments:** {snapshot['net_cashflow']:,.2f}"
         )
