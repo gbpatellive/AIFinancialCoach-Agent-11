@@ -68,3 +68,9 @@ The debt analysis flow is implemented in [`app.agents.debt_analyzer_agent.DebtAn
 
 - This project provides educational financial guidance.
 - It is not legal, tax, or investment advice.
+
+# Extra:
+feature/user-login contains code to load details based on login user.
+usernames is e.g.user1,user2, .. user5.
+Password is the same for all users: Pass@123.
+This loads the file specific to the selected user.
