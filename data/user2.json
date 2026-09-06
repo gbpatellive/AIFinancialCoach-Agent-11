@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "currency": "INR",
+    "profile": "experienced_professional_marriage_planning",
+    "last_updated": "2026-09-05"
+  },
+
+  "user": {
+    "name": "Neha Deshmukh",
+    "age": 29,
+    "occupation": "Product Manager",
+    "dependents": 2
+  },
+
+  "income_sources": [
+    {
+      "source": "Salary",
+      "amount": 145000,
+      "frequency": "monthly",
+      "type": "fixed"
+    },
+    {
+      "source": "Annual Bonus",
+      "amount": 300000,
+      "frequency": "yearly",
+      "type": "variable"
+    }
+  ],
+
+  "current_expenses": [
+    {
+      "source": "Rent",
+      "amount": 30000,
+      "frequency": "monthly",
+      "category": "housing",
+      "type": "essential"
+    },
+    {
+      "source": "Household Expenses",
+      "amount": 16000,
+      "frequency": "monthly",
+      "category": "household",
+      "type": "essential"
+    },
+    {
+      "source": "Food and Groceries",
+      "amount": 12000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "essential"
+    },
+    {
+      "source": "Transport",
+      "amount": 7000,
+      "frequency": "monthly",
+      "category": "transport",
+      "type": "essential"
+    },
+    {
+      "source": "Utilities",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Travel",
+      "amount": 10000,
+      "frequency": "monthly",
+      "category": "travel",
+      "type": "discretionary"
+    },
+    {
+      "source": "Dining Out",
+      "amount": 7000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "discretionary"
+    },
+    {
+      "source": "Shopping",
+      "amount": 8000,
+      "frequency": "monthly",
+      "category": "shopping",
+      "type": "discretionary"
+    }
+  ],
+
+  "debts": [],
+
+  "investments": [
+    {
+      "name": "Equity Mutual Funds",
+      "type": "mutual_fund",
+      "current_value": 850000,
+      "monthly_contribution": 25000
+    },
+    {
+      "name": "EPF",
+      "type": "retirement",
+      "current_value": 600000,
+      "monthly_contribution": 12000
+    },
+    {
+      "name": "Fixed Deposit",
+      "type": "fixed_deposit",
+      "current_value": 200000,
+      "monthly_contribution": 0
+    }
+  ],
+
+  "insurance": [],
+
+  "cash_and_savings": {
+    "current_balance": 350000,
+    "emergency_fund": 250000
+  },
+
+  "financial_goals": [
+    {
+      "goal": "Marriage",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 1200000,
+      "current_amount": 300000,
+      "priority": "high"
+    },
+    {
+      "goal": "Parents Medical Reserve",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 300000,
+      "current_amount": 100000,
+      "priority": "high"
+    },
+    {
+      "goal": "Down Payment for Home",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 3000000,
+      "current_amount": 500000,
+      "priority": "high"
+    },
+    {
+      "goal": "International Travel",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 250000,
+      "current_amount": 50000,
+      "priority": "low"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "metadata": {
+    "currency": "INR",
+    "profile": "mid_30s_multiple_debts",
+    "last_updated": "2026-09-05"
+  },
+
+  "user": {
+    "name": "Vikram Patil",
+    "age": 36,
+    "occupation": "Senior Software Engineer",
+    "dependents": 2
+  },
+
+  "income_sources": [
+    {
+      "source": "Salary",
+      "amount": 240000,
+      "frequency": "monthly",
+      "type": "fixed"
+    },
+    {
+      "source": "Annual Bonus",
+      "amount": 500000,
+      "frequency": "yearly",
+      "type": "variable"
+    }
+  ],
+
+  "current_expenses": [
+    {
+      "source": "Household Expenses",
+      "amount": 18000,
+      "frequency": "monthly",
+      "category": "household",
+      "type": "essential"
+    },
+    {
+      "source": "Food and Groceries",
+      "amount": 15000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "essential"
+    },
+    {
+      "source": "Utilities",
+      "amount": 7000,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Transport and Fuel",
+      "amount": 8000,
+      "frequency": "monthly",
+      "category": "transport",
+      "type": "essential"
+    },
+    {
+      "source": "Children Education",
+      "amount": 18000,
+      "frequency": "monthly",
+      "category": "education",
+      "type": "essential"
+    },
+    {
+      "source": "Medical Expenses",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "healthcare",
+      "type": "essential"
+    },
+    {
+      "source": "Domestic Help",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "household",
+      "type": "essential"
+    },
+    {
+      "source": "Dining Out",
+      "amount": 7000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "discretionary"
+    },
+    {
+      "source": "Entertainment",
+      "amount": 5000,
+      "frequency": "monthly",
+      "category": "entertainment",
+      "type": "discretionary"
+    },
+    {
+      "source": "Shopping",
+      "amount": 6000,
+      "frequency": "monthly",
+      "category": "shopping",
+      "type": "discretionary"
+    }
+  ],
+
+  "debts": [
+    {
+      "name": "Home Loan",
+      "type": "home_loan",
+      "current_balance": 4200000,
+      "monthly_payment": 42000,
+      "payment_frequency": "monthly",
+      "remaining_term_months": 144
+    },
+    {
+      "name": "Car Loan",
+      "type": "car_loan",
+      "current_balance": 700000,
+      "monthly_payment": 18000,
+      "payment_frequency": "monthly",
+      "remaining_term_months": 48
+    },
+    {
+      "name": "Personal Loan",
+      "type": "personal_loan",
+      "current_balance": 450000,
+      "monthly_payment": 15000,
+      "payment_frequency": "monthly",
+      "remaining_term_months": 36
+    },
+    {
+      "name": "Credit Card",
+      "type": "credit_card",
+      "current_balance": 95000,
+      "minimum_payment": 8000,
+      "payment_frequency": "monthly"
+    }
+  ],
+
+  "investments": [
+    {
+      "name": "Equity Mutual Fund SIP",
+      "type": "mutual_fund",
+      "current_value": 1100000,
+      "monthly_contribution": 25000
+    },
+    {
+      "name": "EPF",
+      "type": "retirement",
+      "current_value": 1400000,
+      "monthly_contribution": 20000
+    },
+    {
+      "name": "Fixed Deposit",
+      "type": "fixed_deposit",
+      "current_value": 300000,
+      "monthly_contribution": 0
+    }
+  ],
+
+  "insurance": [
+    {
+      "type": "life",
+      "cover": 15000000,
+      "premium": 24000,
+      "payment_frequency": "yearly"
+    },
+    {
+      "type": "health",
+      "cover": 1500000,
+      "premium": 36000,
+      "payment_frequency": "yearly"
+    },
+    {
+      "type": "personal_accident",
+      "cover": 5000000,
+      "premium": 7000,
+      "payment_frequency": "yearly"
+    }
+  ],
+
+  "cash_and_savings": {
+    "current_balance": 500000,
+    "emergency_fund": 350000
+  },
+
+  "financial_goals": [
+    {
+      "goal": "Build Larger Emergency Fund",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 900000,
+      "current_amount": 350000,
+      "priority": "high"
+    },
+    {
+      "goal": "Car Loan Prepayment",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 300000,
+      "current_amount": 0,
+      "priority": "medium"
+    },
+    {
+      "goal": "Children Education",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 2500000,
+      "current_amount": 400000,
+      "priority": "high"
+    },
+    {
+      "goal": "Home Loan Reduction",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 1500000,
+      "current_amount": 0,
+      "priority": "medium"
+    },
+    {
+      "goal": "Retirement Corpus",
+      "horizon": "long_term",
+      "horizon_years": "10+",
+      "target_amount": 40000000,
+      "current_amount": 2500000,
+      "priority": "high"
+    }
+  ]
+}
