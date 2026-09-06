@@ -1,0 +1,10 @@
+﻿{
+    "username":  "user1",
+    "login_time":  "2026-09-05T20:09:33.7879109+05:30",
+    "profile":  {
+                    "last_name":  "Sharma",
+                    "pan_number":  "AABCU1234F",
+                    "first_name":  "Aarav",
+                    "aadhar_number":  "412345678901"
+                }
+}

@@ -1,0 +1,188 @@
+{
+  "metadata": {
+    "currency": "INR",
+    "profile": "senior_professional_healthy_portfolio",
+    "last_updated": "2026-09-05"
+  },
+  "username": "user3",
+  "password": "Pass@123",
+  "aadhar_number": "434567890123",
+  "Aadhar": "434567890123",
+  "pan_number": "AABCU3456H",
+  "PAN": "AABCU3456H",
+  "user": {
+    "name": "Rohan Mehta",
+    "age": 42,
+    "occupation": "Engineering Director",
+    "dependents": 2
+  },
+  "income_sources": [
+    {
+      "source": "Salary",
+      "amount": 320000,
+      "frequency": "monthly",
+      "type": "fixed"
+    },
+    {
+      "source": "Annual Bonus",
+      "amount": 800000,
+      "frequency": "yearly",
+      "type": "variable"
+    }
+  ],
+  "current_expenses": [
+    {
+      "source": "Home Expenses",
+      "amount": 35000,
+      "frequency": "monthly",
+      "category": "housing",
+      "type": "essential"
+    },
+    {
+      "source": "Food and Groceries",
+      "amount": 18000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "essential"
+    },
+    {
+      "source": "Utilities",
+      "amount": 8000,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Transport",
+      "amount": 12000,
+      "frequency": "monthly",
+      "category": "transport",
+      "type": "essential"
+    },
+    {
+      "source": "Children Education",
+      "amount": 30000,
+      "frequency": "monthly",
+      "category": "education",
+      "type": "essential"
+    },
+    {
+      "source": "Domestic Help",
+      "amount": 6000,
+      "frequency": "monthly",
+      "category": "household",
+      "type": "essential"
+    },
+    {
+      "source": "Travel",
+      "amount": 20000,
+      "frequency": "monthly",
+      "category": "travel",
+      "type": "discretionary"
+    },
+    {
+      "source": "Entertainment",
+      "amount": 10000,
+      "frequency": "monthly",
+      "category": "entertainment",
+      "type": "discretionary"
+    }
+  ],
+  "debts": [],
+  "investments": [
+    {
+      "name": "Equity Mutual Funds",
+      "type": "mutual_fund",
+      "current_value": 4800000,
+      "monthly_contribution": 60000
+    },
+    {
+      "name": "Direct Equity",
+      "type": "stocks",
+      "current_value": 2500000,
+      "monthly_contribution": 20000
+    },
+    {
+      "name": "EPF",
+      "type": "retirement",
+      "current_value": 3200000,
+      "monthly_contribution": 25000
+    },
+    {
+      "name": "PPF",
+      "type": "retirement",
+      "current_value": 1200000,
+      "monthly_contribution": 12500
+    },
+    {
+      "name": "Fixed Deposits",
+      "type": "fixed_deposit",
+      "current_value": 1500000,
+      "monthly_contribution": 0
+    },
+    {
+      "name": "Gold",
+      "type": "gold",
+      "current_value": 700000,
+      "monthly_contribution": 5000
+    }
+  ],
+  "insurance": [
+    {
+      "type": "life",
+      "cover": 25000000,
+      "premium": 30000,
+      "payment_frequency": "yearly"
+    },
+    {
+      "type": "health",
+      "cover": 2000000,
+      "premium": 40000,
+      "payment_frequency": "yearly"
+    },
+    {
+      "type": "personal_accident",
+      "cover": 10000000,
+      "premium": 10000,
+      "payment_frequency": "yearly"
+    }
+  ],
+  "cash_and_savings": {
+    "current_balance": 1200000,
+    "emergency_fund": 900000
+  },
+  "financial_goals": [
+    {
+      "goal": "Children Higher Education",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 3000000,
+      "current_amount": 1000000,
+      "priority": "high"
+    },
+    {
+      "goal": "Children Higher Education - Long Term",
+      "horizon": "long_term",
+      "horizon_years": "6-10",
+      "target_amount": 5000000,
+      "current_amount": 1200000,
+      "priority": "high"
+    },
+    {
+      "goal": "Retirement Corpus",
+      "horizon": "long_term",
+      "horizon_years": "10+",
+      "target_amount": 50000000,
+      "current_amount": 12000000,
+      "priority": "high"
+    },
+    {
+      "goal": "International Family Travel",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 400000,
+      "current_amount": 100000,
+      "priority": "low"
+    }
+  ]
+}

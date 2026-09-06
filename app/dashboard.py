@@ -1,20 +1,84 @@
-﻿import requests
-import streamlit as st
+﻿import json
+import os
+from pathlib import Path
+from typing import Optional, Tuple
+
 import pandas as pd
+import requests
+import streamlit as st
 
-st.set_page_config(page_title="AI Financial Coach", page_icon="💸", layout="wide")
-st.title("💸 AI Financial Coach")
-st.caption("Clean view of your financial analysis from all agents.")
+DEFAULT_API_BASE = "http://127.0.0.1:8000"
 
-# Keep endpoint unchanged
-api_url = st.text_input("API URL", "http://127.0.0.1:8000/plan")
+def _discover_generate_plan_url(base_url: str) -> str:
+    # Try OpenAPI first
+    try:
+        r = requests.get(f"{base_url}/openapi.json", timeout=10)
+        r.raise_for_status()
+        spec = r.json()
+        paths = (spec or {}).get("paths", {}) or {}
+        for p in paths.keys():
+            if "generate" in p and "plan" in p:
+                return f"{base_url}{p}"
+    except Exception:
+        pass
+
+    # Fallback candidates
+    for p in ("/generate-plan", "/generate_plan", "/api/generate-plan"):
+        try:
+            # We only probe with OPTIONS to check route existence
+            probe = requests.options(f"{base_url}{p}", timeout=5)
+            if probe.status_code not in (404,):
+                return f"{base_url}{p}"
+        except Exception:
+            pass
+
+    return f"{base_url}/generate-plan"
+
+def load_logged_in_user() -> Optional[dict]:
+    session_file = os.getenv(
+        "AIFC_SESSION_FILE",
+        os.path.join(os.path.dirname(__file__), "session", "current_user.json"),
+    )
+    if not os.path.exists(session_file):
+        return None
+
+    # Try common encodings used by PowerShell output
+    for enc in ("utf-8", "utf-8-sig", "utf-16", "utf-16-le"):
+        try:
+            with open(session_file, "r", encoding=enc) as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    return data
+        except Exception:
+            pass
+
+    return None
 
 
-def _find_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
-    cols = {c.lower(): c for c in df.columns}
+def resolve_user_json_path(logged_user: dict) -> str:
+    """
+    Resolve user profile JSON path in this priority:
+    1) logged_user["user_json_path"]
+    2) logged_user["profile"]["user_json_path"]
+    3) data/<username>.json
+    """
+    username = (logged_user or {}).get("username", "")
+    profile = (logged_user or {}).get("profile", {}) or {}
+
+    explicit = (logged_user or {}).get("user_json_path") or profile.get("user_json_path")
+    if explicit:
+        return explicit
+
+    project_root = Path(__file__).resolve().parent.parent
+    return str(project_root / "data" / f"{username}.json")
+
+
+def _find_col(df: pd.DataFrame, candidates: list[str]) -> Optional[str]:
+    cols = {c.lower().strip(): c for c in df.columns}
     for c in candidates:
-        if c.lower() in cols:
-            return cols[c.lower()]
+        key = c.lower().strip()
+        if key in cols:
+            return cols[key]
     return None
 
 
@@ -22,261 +86,182 @@ def _to_numeric(series: pd.Series) -> pd.Series:
     return pd.to_numeric(series, errors="coerce").fillna(0.0)
 
 
-def _load_csv(path: str) -> tuple[pd.DataFrame | None, str | None]:
+def _load_json(path: str) -> Tuple[Optional[dict], Optional[str]]:
+    if not path:
+        return None, "Empty JSON path"
     try:
-        df = pd.read_csv(path)
-        return df, None
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f), None
     except Exception as ex:
         return None, str(ex)
 
 
-def _compute_debt_summary(debts_df: pd.DataFrame | None) -> dict:
+def _to_monthly(amount: float, frequency: str) -> float:
+    freq = (frequency or "").lower().strip()
+    if freq == "yearly":
+        return float(amount) / 12.0
+    return float(amount)
+
+
+def _compute_json_summary(user_doc: Optional[dict]) -> dict:
     summary = {
+        "monthly_income": 0.0,
+        "monthly_expenses": 0.0,
         "total_debt": 0.0,
         "total_min_payment": 0.0,
         "avg_apr": None,
         "accounts": 0,
-        "balance_col": None,
-        "min_col": None,
-        "apr_col": None,
-        "name_col": None,
+        "currency": "INR",
     }
-    if debts_df is None or debts_df.empty:
+    if not user_doc:
         return summary
 
-    balance_col = _find_col(
-        debts_df,
-        ["balance", "outstanding_balance", "current_balance", "principal", "debt_amount", "amount"],
+    metadata = user_doc.get("metadata", {}) or {}
+    summary["currency"] = metadata.get("currency", "INR")
+
+    incomes = user_doc.get("income_sources", []) or []
+    expenses = user_doc.get("current_expenses", []) or []
+    debts = user_doc.get("debts", []) or []
+
+    summary["monthly_income"] = float(
+        sum(_to_monthly(x.get("amount", 0.0), x.get("frequency", "monthly")) for x in incomes)
     )
-    min_col = _find_col(
-        debts_df,
-        ["minimum_payment", "min_payment", "monthly_payment", "emi", "minimum_due"],
-    )
-    apr_col = _find_col(
-        debts_df,
-        ["apr", "interest_rate", "rate", "annual_rate"],
-    )
-    name_col = _find_col(
-        debts_df,
-        ["debt_name", "loan_name", "account_name", "lender", "bank", "name"],
+    summary["monthly_expenses"] = float(
+        sum(_to_monthly(x.get("amount", 0.0), x.get("frequency", "monthly")) for x in expenses)
     )
 
-    if balance_col:
-        summary["total_debt"] = float(_to_numeric(debts_df[balance_col]).sum())
-    if min_col:
-        summary["total_min_payment"] = float(_to_numeric(debts_df[min_col]).sum())
-    if apr_col:
-        apr_vals = _to_numeric(debts_df[apr_col])
-        summary["avg_apr"] = float(apr_vals.mean()) if len(apr_vals) else None
+    total_debt = 0.0
+    total_min_payment = 0.0
+    apr_values: list[float] = []
 
-    summary["accounts"] = int(len(debts_df))
-    summary["balance_col"] = balance_col
-    summary["min_col"] = min_col
-    summary["apr_col"] = apr_col
-    summary["name_col"] = name_col
+    for d in debts:
+        bal = float(d.get("current_balance", 0.0) or 0.0)
+        total_debt += bal
+
+        min_pay = d.get("minimum_payment", None)
+        if min_pay is None:
+            min_pay = d.get("monthly_payment", 0.0)
+        total_min_payment += float(min_pay or 0.0)
+
+        apr = d.get("apr", None)
+        if apr is not None:
+            apr_values.append(float(apr))
+
+    summary["total_debt"] = total_debt
+    summary["total_min_payment"] = total_min_payment
+    summary["accounts"] = int(len(debts))
+    summary["avg_apr"] = float(sum(apr_values) / len(apr_values)) if apr_values else None
     return summary
 
 
-def _compute_expense_summary(tx_df: pd.DataFrame | None) -> dict:
-    summary = {"monthly_expenses": 0.0, "method": "not_available", "amount_col": None}
-    if tx_df is None or tx_df.empty:
-        return summary
+# ----------------- UI -----------------
+st.set_page_config(page_title="AI Financial Coach", page_icon="💸", layout="wide")
 
-    amount_col = _find_col(tx_df, ["amount", "txn_amount", "transaction_amount", "value"])
-    type_col = _find_col(tx_df, ["type", "transaction_type", "dr_cr", "direction", "kind"])
-
-    if not amount_col:
-        return summary
-
-    amounts = _to_numeric(tx_df[amount_col])
-    monthly_expenses = 0.0
-    method = "all_amounts_sum"
-
-    if type_col:
-        t = tx_df[type_col].astype(str).str.lower().str.strip()
-        expense_mask = t.isin(["expense", "debit", "dr", "outflow"])
-        if expense_mask.any():
-            monthly_expenses = float(amounts[expense_mask].abs().sum())
-            method = "type_filtered"
-        else:
-            negatives = amounts[amounts < 0]
-            monthly_expenses = float(negatives.abs().sum()) if len(negatives) else float(amounts.abs().sum())
-            method = "negative_or_abs_fallback"
-    else:
-        negatives = amounts[amounts < 0]
-        monthly_expenses = float(negatives.abs().sum()) if len(negatives) else float(amounts.abs().sum())
-        method = "negative_or_abs_fallback"
-
-    summary["monthly_expenses"] = monthly_expenses
-    summary["method"] = method
-    summary["amount_col"] = amount_col
-    return summary
-
-
-with st.sidebar:
-    st.header("Data Sources")
-    debts_csv = st.text_input("Debts CSV path", r"data\sample_debts.csv")
-    tx_csv = st.text_input("Transactions CSV path", r"data\sample_transactions.csv")
-
-st.subheader("Profile")
-c1, c2, c3 = st.columns(3)
-with c1:
-    user_id = st.text_input("User ID", "demo-user")
-with c2:
-    monthly_income = st.number_input(
-        "Monthly Income",
-        min_value=0.0,
-        value=120000.0,
-        step=1000.0,
-        help="Total monthly take-home income.",
+# Header row with top-right user id
+h1, h2 = st.columns([4, 2])
+with h1:
+    st.title("💸 AI Financial Coach")
+with h2:
+    logged_user = load_logged_in_user()
+    user_id = (logged_user or {}).get("username", "")
+    st.markdown(
+        f"<div style='text-align:right; margin-top: 14px;'><b>{user_id}</b></div>",
+        unsafe_allow_html=True,
     )
-with c3:
-    payoff_mode = st.selectbox("Payoff Mode", ["aggressive", "balanced", "conservative"], index=0)
 
-# Local CSV read for user-visible debt/expense context (independent of API output)
-debts_df, debts_err = _load_csv(debts_csv)
-tx_df, tx_err = _load_csv(tx_csv)
+st.caption("Financial plan generation based on logged-in user profile.")
 
-debt_summary = _compute_debt_summary(debts_df)
-expense_summary = _compute_expense_summary(tx_df)
+if not logged_user:
+    st.error("No valid login session found. Start the app using run_dashboard.ps1.")
+    st.stop()
 
-total_debt = debt_summary["total_debt"]
-monthly_expenses = expense_summary["monthly_expenses"]
-total_min_payment = debt_summary["total_min_payment"]
+profile = logged_user.get("profile", {}) or {}
+st.markdown(
+    f"""
+**Name:** {profile.get("first_name", "")} {profile.get("last_name", "")}  
+**Aadhar:** {profile.get("aadhar_number", "")}  
+**PAN:** {profile.get("pan_number", "")}
+"""
+)
+
+user_json_path = resolve_user_json_path(logged_user)
+st.text_input("Resolved User JSON Path", value=user_json_path, disabled=True)
+
+payoff_mode = st.selectbox("Payoff Mode", ["conservative", "balanced", "aggressive"], index=1)
+
+user_doc, json_err = _load_json(user_json_path)
+json_summary = _compute_json_summary(user_doc)
+
+derived_monthly_income = json_summary["monthly_income"] if json_summary["monthly_income"] > 0 else 100000.0
+total_debt = json_summary["total_debt"]
+total_min_payment = json_summary["total_min_payment"]
+monthly_expenses = json_summary["monthly_expenses"]
+avg_apr = json_summary["avg_apr"]
+debt_accounts = json_summary["accounts"]
+currency_symbol = "₹" if json_summary.get("currency", "INR") == "INR" else ""
+
+monthly_income = st.number_input(
+    "Monthly Income",
+    min_value=0.0,
+    value=float(derived_monthly_income),
+    step=1000.0,
+)
 
 net_cashflow = monthly_income - monthly_expenses - total_min_payment
 dti = (total_min_payment / monthly_income * 100.0) if monthly_income > 0 else 0.0
 
 st.markdown("### Financial Position Snapshot")
 k1, k2, k3, k4, k5 = st.columns(5)
-with k1:
-    st.metric("Total Debt", f"{total_debt:,.2f}")
-with k2:
-    st.metric("Monthly Income", f"{monthly_income:,.2f}")
-with k3:
-    st.metric("Monthly Expenses", f"{monthly_expenses:,.2f}")
-with k4:
-    st.metric("Debt Payments (Min)", f"{total_min_payment:,.2f}")
-with k5:
-    st.metric("Net Cashflow", f"{net_cashflow:,.2f}")
+k1.metric("Total Debt", f"{currency_symbol}{total_debt:,.2f}")
+k2.metric("Min Debt Payment", f"{currency_symbol}{total_min_payment:,.2f}")
+k3.metric("Monthly Expenses", f"{currency_symbol}{monthly_expenses:,.2f}")
+k4.metric("Net Cashflow", f"{currency_symbol}{net_cashflow:,.2f}")
+k5.metric("DTI", f"{dti:.2f}%")
 
 r1, r2 = st.columns(2)
 with r1:
-    st.metric("DTI % (Min Payment / Income)", f"{dti:.1f}%")
+    st.write(f"Debt Accounts: **{debt_accounts}**")
 with r2:
-    if net_cashflow < 0:
-        st.error("Risk: Monthly deficit detected. Consider reducing expenses or adjusting payoff mode.")
-    else:
-        st.success("Healthy: Monthly surplus available.")
+    st.write(f"Avg APR: **{avg_apr:.2f}%**" if avg_apr is not None else "Avg APR: **N/A**")
 
-if debts_err:
-    st.warning(f"Could not read debts CSV for preview: {debts_err}")
-if tx_err:
-    st.warning(f"Could not read transactions CSV for preview: {tx_err}")
+if json_err:
+    st.error(f"User JSON load error: {json_err}")
 
 run = st.button("Generate Plan", type="primary", use_container_width=True)
 
 if run:
     payload = {
-        "user_id": user_id,
-        "monthly_income": monthly_income,  # Included in request
-        "region": "global",
+        "input_mode": "json",
         "payoff_mode": payoff_mode,
-        "debts_csv": debts_csv,
-        "transactions_csv": tx_csv,
+        "user_json_path": user_json_path,
     }
 
+    api_url = _discover_generate_plan_url(DEFAULT_API_BASE)
+
     try:
-        with st.spinner("Generating plan..."):
-            r = requests.post(api_url, json=payload, timeout=60)
+        resp = requests.post(api_url, json=payload, timeout=90)
+        resp.raise_for_status()
+        data = resp.json()
 
-        if r.status_code != 200:
-            st.error(r.text)
-        else:
-            data = r.json()
-            st.success("Plan generated")
+        st.success("Plan generated successfully.")
+        st.subheader("Response")
+        st.json(data)
 
-            headline = data.get("headline", {})
-            h1, h2, h3 = st.columns(3)
-            with h1:
-                st.metric("Monthly Income", f"{monthly_income:,.2f}")
-            with h2:
-                st.metric("Payoff Mode", payoff_mode.title())
-            with h3:
-                st.metric(
-                    "Estimated Months to Debt-Free",
-                    headline.get("estimated_months_to_debt_free", "N/A"),
-                )
-
-            tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Debt Details", "Agent Insights", "Raw JSON"])
-
-            with tab1:
+        if isinstance(data, dict):
+            if "headline" in data:
                 st.subheader("Headline")
-                st.json(headline)
+                st.json(data.get("headline"))
 
-                st.subheader("Income vs Outflow")
-                compare_df = pd.DataFrame(
-                    {
-                        "component": ["Income", "Expenses", "Debt Min Payment", "Net Cashflow"],
-                        "amount": [monthly_income, monthly_expenses, total_min_payment, net_cashflow],
-                    }
-                )
-                st.dataframe(compare_df, use_container_width=True, hide_index=True)
-                st.bar_chart(compare_df.set_index("component")["amount"])
+            if "next_actions" in data and isinstance(data.get("next_actions"), list):
+                st.subheader("Next Actions")
+                for i, action in enumerate(data.get("next_actions", []), start=1):
+                    st.write(f"{i}. {action}")
 
-                next_actions = data.get("next_actions", [])
-                if next_actions:
-                    st.subheader("Next Actions")
-                    for i, action in enumerate(next_actions, 1):
-                        st.write(f"{i}. {action}")
-
-            with tab2:
-                st.subheader("Debt Accounts")
-                if debts_df is None or debts_df.empty:
-                    st.info("No debt CSV data available to display.")
-                else:
-                    st.dataframe(debts_df, use_container_width=True, hide_index=True)
-
-                    balance_col = debt_summary["balance_col"]
-                    name_col = debt_summary["name_col"]
-
-                    if balance_col:
-                        chart_df = debts_df.copy()
-                        chart_df[balance_col] = _to_numeric(chart_df[balance_col])
-
-                        if name_col:
-                            by_debt = chart_df[[name_col, balance_col]].groupby(name_col, as_index=False).sum()
-                            by_debt = by_debt.sort_values(balance_col, ascending=False)
-                            st.subheader("Debt by Account")
-                            st.bar_chart(by_debt.set_index(name_col)[balance_col])
-                        else:
-                            st.subheader("Debt Balances")
-                            st.bar_chart(chart_df[balance_col])
-
-            with tab3:
-                outputs = data.get("outputs", [])
-                if not outputs:
-                    st.info("No agent outputs found.")
-                for item in outputs:
-                    st.markdown(f"### {item.get('agent_name', 'unknown_agent')}")
-                    st.write(item.get("summary", ""))
-
-                    details = item.get("details", {})
-                    if isinstance(details, dict) and details:
-                        details_df = pd.DataFrame([{"field": k, "value": v} for k, v in details.items()])
-                        st.dataframe(details_df, use_container_width=True, hide_index=True)
-                    else:
-                        st.caption("No details available.")
-
-                    if item.get("agent_name") == "debt_payoff_optimizer":
-                        schedule = details.get("schedule_preview_first_12_months", [])
-                        if schedule:
-                            df = pd.DataFrame(schedule)
-                            if "month" in df.columns and "remaining_balance" in df.columns:
-                                st.line_chart(df.set_index("month")["remaining_balance"])
-
-            with tab4:
-                st.json(data)
+            if "outputs" in data:
+                st.subheader("Agent Outputs")
+                st.json(data.get("outputs"))
 
     except requests.RequestException as ex:
-        st.error(f"Request failed: {ex}")
+        st.error(f"API call failed: {ex} (url tried: {api_url})")
+    except Exception as ex:
+        st.error(f"Unexpected error: {ex}")

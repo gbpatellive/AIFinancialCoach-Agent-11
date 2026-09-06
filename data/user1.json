@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "currency": "INR",
+    "profile": "recent_fresher",
+    "last_updated": "2026-09-05"
+  },
+  "username": "user1",
+  "password": "Pass@123",
+  "aadhar_number": "412345678901",
+  "Aadhar": "412345678901",
+  "pan_number": "AABCU1234F",
+  "PAN": "AABCU1234F",
+  "user": {
+    "name": "Aarav Sharma",
+    "age": 23,
+    "occupation": "Software Engineer",
+    "dependents": 2
+  },
+  "income_sources": [
+    {
+      "source": "Salary",
+      "amount": 65000,
+      "frequency": "monthly",
+      "type": "fixed"
+    }
+  ],
+  "current_expenses": [
+    {
+      "source": "Rent",
+      "amount": 14000,
+      "frequency": "monthly",
+      "category": "housing",
+      "type": "essential"
+    },
+    {
+      "source": "Food and Groceries",
+      "amount": 9000,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "essential"
+    },
+    {
+      "source": "Utilities",
+      "amount": 3000,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Transport",
+      "amount": 4000,
+      "frequency": "monthly",
+      "category": "transport",
+      "type": "essential"
+    },
+    {
+      "source": "Mobile and Internet",
+      "amount": 1500,
+      "frequency": "monthly",
+      "category": "utilities",
+      "type": "essential"
+    },
+    {
+      "source": "Dining Out",
+      "amount": 3500,
+      "frequency": "monthly",
+      "category": "food",
+      "type": "discretionary"
+    },
+    {
+      "source": "Entertainment",
+      "amount": 2500,
+      "frequency": "monthly",
+      "category": "entertainment",
+      "type": "discretionary"
+    },
+    {
+      "source": "Shopping",
+      "amount": 3000,
+      "frequency": "monthly",
+      "category": "shopping",
+      "type": "discretionary"
+    }
+  ],
+  "debts": [
+    {
+      "name": "Education Loan",
+      "type": "education_loan",
+      "current_balance": 650000,
+      "monthly_payment": 8500,
+      "payment_frequency": "monthly",
+      "remaining_term_months": 84
+    }
+  ],
+  "investments": [],
+  "insurance": [],
+  "cash_and_savings": {
+    "current_balance": 45000,
+    "emergency_fund": 30000
+  },
+  "financial_goals": [
+    {
+      "goal": "Build Emergency Fund",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 200000,
+      "current_amount": 30000,
+      "priority": "high"
+    },
+    {
+      "goal": "Upgrade Laptop",
+      "horizon": "short_term",
+      "horizon_years": "1-2",
+      "target_amount": 100000,
+      "current_amount": 15000,
+      "priority": "medium"
+    },
+    {
+      "goal": "Higher Education / Certification",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 300000,
+      "current_amount": 0,
+      "priority": "medium"
+    },
+    {
+      "goal": "Support Family Financially",
+      "horizon": "mid_term",
+      "horizon_years": "3-5",
+      "target_amount": 500000,
+      "current_amount": 50000,
+      "priority": "high"
+    }
+  ]
+}
